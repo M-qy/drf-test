@@ -14,56 +14,32 @@ LOGGING = {
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'log',
+            'level': 'INFO'
         },
-        'info': {
+        'log': {
             'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': 'logs/info',
+            'filename': 'logs/log',
             'formatter': 'log',
             'encoding': 'utf-8',
             'maxBytes': 1024 * 1024 * 128,
-            'backupCount': 5
+            'backupCount': 5,
+            'level': 'DEBUG'
         },
-        'warn': {
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': 'logs/warn',
-            'formatter': 'log',
-            'encoding': 'utf-8',
-            'maxBytes': 1024 * 1024 * 128,
-            'backupCount': 5
-        },
-        'error': {
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': 'logs/error',
-            'formatter': 'log',
-            'encoding': 'utf-8',
-            'maxBytes': 1024 * 1024 * 128,
-            'backupCount': 5
-        },
-        'sql': {
-            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
-            'filename': 'logs/sql',
+        'sql_console': {
+            'class': 'logging.StreamHandler',
             'formatter': 'sql',
-            'encoding': 'utf-8',
-            'maxBytes': 1024 * 1024 * 128,
-            'backupCount': 5
-        },
+            'level': 'DEBUG'
+        }
     },
     'loggers': {
-        # 'django.db.backends': {
-        #     'handlers': ['console', 'sql'],
-        #     'level': 'DEBUG',
-        # },
-        # 'test.info': {
-        #     'handlers': ['info'],
-        #     'level': 'INFO',
-        # },
-        # 'test.warn': {
-        #     'handlers': ['console', 'warn'],
-        #     'level': 'WARNING',
-        # },
-        # 'test.error': {
-        #     'handlers': ['console', 'error'],
-        #     'level': 'ERROR',
-        # },
+        'django.db.backends': {
+            'handlers': ['sql_console'],
+            'level': 'DEBUG',
+        },
+        'test_log': {
+            'handlers': ['console', 'log'],
+            'level': 'DEBUG'
+        }
     },
 }

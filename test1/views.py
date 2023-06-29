@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -38,5 +40,6 @@ class UserRouteViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def test(self, request):
-        print(11111111111111)
+        logger = logging.getLogger('test_log')
+        logger.debug('111111111111111111')
         return Response('haha')
