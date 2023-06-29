@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_redis import get_redis_connection
 
 from .filtersets import UserFilter
 from .models import User
@@ -41,3 +42,10 @@ class UserRouteViewSet(viewsets.ModelViewSet):
     def test(self, request):
         LOG_OBJ.debug('111111111111111111')
         return Response('haha')
+
+    @action(detail=False, methods=['get'])
+    def redis_test(self, request):
+        conn = get_redis_connection("default")
+        conn.set('key', 'helloworld!!!')
+        result = conn.get('key').decode('utf-8')
+        return Response(result)

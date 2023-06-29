@@ -1,0 +1,6 @@
+concurrent-log-handler==0.9.24
+Django==3.1.5
+django-filter==21.1
+django-redis==5.2.0
+djangorestframework==3.12.2
+psycopg2==2.8.6
