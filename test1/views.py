@@ -1,5 +1,3 @@
-import logging
-
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -7,6 +5,7 @@ from rest_framework.response import Response
 from .filtersets import UserFilter
 from .models import User
 from .serializers import UserSerializer
+from test_db.settings import LOG_OBJ
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -40,6 +39,5 @@ class UserRouteViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def test(self, request):
-        logger = logging.getLogger('test_log')
-        logger.debug('111111111111111111')
+        LOG_OBJ.debug('111111111111111111')
         return Response('haha')

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import logging
 from pathlib import Path
 
 from .conf import *
@@ -138,3 +138,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'test1.paginations.LimitOffsetPaginationPlus',
     "PAGE_SIZE": 5,  # 每页显示多少个
 }
+
+LOG_OBJ = logging.getLogger('test_log')

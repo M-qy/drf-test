@@ -3,11 +3,11 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'log': {
-            'format': '{asctime} - {levelname} - {message}',
+            'format': '[{process}-{levelname}] [{asctime}] [{name}:{lineno}] - {message}',
             'style': '{',
         },
         'sql': {
-            'format': '[{process}-{levelname}] [{asctime}] [{name}:{lineno}] - {message}',
+            'format': '{asctime} - {levelname} - {message}',
             'style': '{',
         },
     },
@@ -30,7 +30,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'sql',
             'level': 'DEBUG'
-        }
+        },
     },
     'loggers': {
         'django.db.backends': {
@@ -40,6 +40,6 @@ LOGGING = {
         'test_log': {
             'handlers': ['console', 'log'],
             'level': 'DEBUG'
-        }
+        },
     },
 }
