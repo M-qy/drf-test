@@ -1,11 +1,11 @@
+from django.http import FileResponse, HttpResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_redis import get_redis_connection
 
 from .filtersets import UserFilter
-from .models import User
-from .serializers import UserSerializer
+from .serializers import *
 from test_db.settings import LOG_OBJ
 
 
@@ -49,3 +49,35 @@ class UserRouteViewSet(viewsets.ModelViewSet):
         conn.set('key', 'helloworld!!!')
         result = conn.get('key').decode('utf-8')
         return Response(result)
+
+    @action(detail=False, methods=['get'])
+    def get_file(self, request):
+        file_path = 'data.txt'  # 本地文件路径
+
+        try:
+            # 打开文件并创建FileResponse对象
+            file = open(file_path, 'rb')
+            response = FileResponse(file)
+            response['Content-Disposition'] = 'attachment; filename="file.txt"'  # 设置下载的文件名
+
+            return response
+        except FileNotFoundError:
+            # 处理文件未找到的情况
+            return HttpResponse('File not found')
+
+    @action(detail=False, methods=['get'])
+    def get_file_content(self, request):
+        with open('data.txt', 'r', encoding='utf-8') as f:
+            content = f.read()
+        return Response(content)
+
+
+class SchoolRouteViewSet(viewsets.ModelViewSet):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+
+    @action(detail=False, methods=['get'])
+    def test(self, request):
+        model = self.get_serializer().Meta.model
+        obj = model.objects.filter(id__in=model.objects.order_by("id").values('id')[1:3]).order_by("-member").first()
+        return Response(obj.name)
