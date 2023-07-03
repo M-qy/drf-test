@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'test1.apps.Test1Config',
     'django_filters',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+# 设置本地IP, debug_toolbar只能在localhost本地测试环境下运行。
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'test_db.urls'

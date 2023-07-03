@@ -18,12 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from test1.views import *
 from rest_framework import routers
+from .settings import DEBUG
 
 router = routers.DefaultRouter()
-router.register('user', UserRouteViewSet)
-router.register('school', SchoolRouteViewSet)
+router.register('user', UserViewSet)
+router.register('school', SchoolViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user_test/', UserViewSet.as_view({'get': 'list'})),
+    path('user_test/', UserTestViewSet.as_view({'get': 'list'})),
     path('', include(router.urls))
 ]
+
+
+if DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns

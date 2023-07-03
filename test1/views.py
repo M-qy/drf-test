@@ -9,7 +9,7 @@ from .serializers import *
 from test_db.settings import LOG_OBJ
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserTestViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         return result
 
 
-class UserRouteViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filterset_class = UserFilter
@@ -72,7 +72,7 @@ class UserRouteViewSet(viewsets.ModelViewSet):
         return Response(content)
 
 
-class SchoolRouteViewSet(viewsets.ModelViewSet):
+class SchoolViewSet(viewsets.ModelViewSet):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
 
