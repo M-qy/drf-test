@@ -43,6 +43,10 @@ class UserViewSet(viewsets.ModelViewSet):
         LOG_OBJ.debug('111111111111111111')
         return Response('haha')
 
+    @action(detail=True, methods=['get'])  # http://localhost:8000/user/1/test_detail/
+    def test_detail(self, request, pk=None):
+        return Response(f'{pk}')
+
     @action(detail=False, methods=['get'])
     def redis_test(self, request):
         conn = get_redis_connection("default")
