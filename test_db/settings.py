@@ -92,14 +92,14 @@ DATABASES = {
         'USER': 'postgres',
         "PASSWORD": '123456',
         "HOST": 'localhost',
-        'PORT': 5432,
+        'PORT': 54320,
     }
 }
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379",
+        "LOCATION": "redis://localhost:63790",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
