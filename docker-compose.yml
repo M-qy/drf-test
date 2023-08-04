@@ -9,7 +9,7 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - .:/drf-test
+      - ./:/drf-test
     working_dir: /drf-test/
     command:
       - "gunicorn test_db.wsgi -c gunicorn_test.py"
