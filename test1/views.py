@@ -1,4 +1,5 @@
-from django.http import FileResponse, HttpResponse
+from django.db.models import Sum, Avg, Count, Aggregate
+from django.http import FileResponse, HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,6 +7,7 @@ from django_redis import get_redis_connection
 
 from .filtersets import UserFilter
 from .serializers import *
+from .models import *
 from test_db.settings import LOG_OBJ
 
 
@@ -39,23 +41,23 @@ class UserViewSet(viewsets.ModelViewSet):
     filterset_class = UserFilter
 
     @action(detail=False, methods=['get'])
-    def test(self, request):
+    def test(self, request, *args, **kwargs):
         LOG_OBJ.debug('111111111111111111')
         return Response('haha')
 
-    @action(detail=True, methods=['get'])  # http://localhost:8000/user/1/test_detail/
-    def test_detail(self, request, pk=None):
-        return Response(f'{pk}')
+    @action(detail=True, methods=['get'])  # http://localhost:8888/user/1/test_detail/
+    def test_detail(self, request, *args, **kwargs):
+        return Response(f'{kwargs.get("pk")} {type(kwargs.get("pk"))}')
 
     @action(detail=False, methods=['get'])
-    def redis_test(self, request):
+    def redis_test(self, request, *args, **kwargs):
         conn = get_redis_connection("default")
         conn.set('key', 'helloworld!!!')
         result = conn.get('key').decode('utf-8')
         return Response(result)
 
     @action(detail=False, methods=['get'])
-    def get_file(self, request):
+    def get_file(self, request, *args, **kwargs):
         file_path = 'data.txt'  # 本地文件路径
 
         try:
@@ -70,7 +72,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return HttpResponse('File not found')
 
     @action(detail=False, methods=['get'])
-    def get_file_content(self, request):
+    def get_file_content(self, request, *args, **kwargs):
         with open('data.txt', 'r', encoding='utf-8') as f:
             content = f.read()
         return Response(content)
@@ -81,7 +83,30 @@ class SchoolViewSet(viewsets.ModelViewSet):
     serializer_class = SchoolSerializer
 
     @action(detail=False, methods=['get'])
-    def test(self, request):
+    def test(self, request, *args, **kwargs):
         model = self.get_serializer().Meta.model
         obj = model.objects.filter(id__in=model.objects.order_by("id").values('id')[1:3]).order_by("-member").first()
         return Response(obj.name)
+
+
+class ConcatAggregate(Aggregate):
+    function = 'STRING_AGG'
+    template = "%(function)s(%(expressions)s, ',')"
+    allow_distinct = True
+
+    def __rand__(self, other):
+        pass
+
+    def __ror__(self, other):
+        pass
+
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    @action(detail=False, methods=['get'])
+    def test_group_by(self, request, *args, **kwargs):
+        queryset = Book.objects.values('type').annotate(total_price=Sum('price'), avg_price=Avg('price'), num_books=Count('id'))
+        result = Book.objects.values('type').annotate(names_concat=ConcatAggregate('name'))
+        return JsonResponse(list(queryset) + (list(result)), safe=False)  # 字典设置True

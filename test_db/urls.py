@@ -20,9 +20,10 @@ from test1.views import *
 from rest_framework import routers
 from .settings import DEBUG
 
-router = routers.DefaultRouter()
+router = routers.SimpleRouter()
 router.register('user', UserViewSet)
 router.register('school', SchoolViewSet)
+router.register('book', BookViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user_test/', UserTestViewSet.as_view({'get': 'list'})),
