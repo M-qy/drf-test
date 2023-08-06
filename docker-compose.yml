@@ -9,10 +9,9 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./:/drf-test
-    working_dir: /drf-test/
-    command:
-      - "gunicorn test_db.wsgi -c gunicorn_test.py"
+      - .:/drf-test
+    working_dir: /drf-test
+    command: "gunicorn test_db.wsgi -c gunicorn_test.py"
 
   test_pgsql:
     image: postgres
@@ -24,8 +23,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
       - TZ=Asia/Shanghai
-    volumes:
-      - .\data:/var/lib/postgresql/data
+#    volumes:
+#      - .\data:/var/lib/postgresql/data
 
   test_redis:
     image: redis
