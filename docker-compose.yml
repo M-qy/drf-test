@@ -23,8 +23,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
       - TZ=Asia/Shanghai
-#    volumes:
-#      - .\data:/var/lib/postgresql/data
+    volumes:
+      - .\data:/var/lib/postgresql/data
 
   test_redis:
     image: redis

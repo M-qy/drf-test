@@ -73,7 +73,7 @@ backlog = 2048
 
 # workers = multiprocessing.cpu_count() * 2 + 1
 workers = 6
-worker_class = 'gthread' # worker进程的工作方式，有sync、eventlet、gevent、tornado、gthread, 缺省值sync, django使用gevent容易造成阻塞, 使用gthread的方式好一些。
+worker_class = 'gthread'  # worker进程的工作方式，有sync、eventlet、gevent、tornado、gthread, 缺省值sync, django使用gevent容易造成阻塞, 使用gthread的方式好一些。
 worker_connections = 1000
 timeout = 60
 # keepalive = 2

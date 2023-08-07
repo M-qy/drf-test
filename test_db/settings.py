@@ -93,7 +93,7 @@ DATABASES = {
         "PASSWORD": '123456',
         # "HOST": 'localhost',
         "HOST": 'pgsql',
-        'PORT': 54320,
+        'PORT': 5432,
     }
 }
 
