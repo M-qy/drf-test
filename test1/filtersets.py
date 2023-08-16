@@ -8,6 +8,6 @@ class UserFilter(filters.FilterSet):
     class Meta:
         model = User  # 模型名
         fields = {
-            'name': ['icontains'],  # i:ignore
-            'age': ['gte', 'lte'],  # http://localhost:8000/user/?age__gte=3
+            'name': ['icontains', 'exact', 'in'],  # i:ignore
+            'age': ['icontains', 'exact', 'in', 'gte', 'lte'],  # http://localhost:8000/user/?age__gte=3
         }
