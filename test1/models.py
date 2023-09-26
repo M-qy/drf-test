@@ -32,6 +32,11 @@ class Book(models.Model):
     press = models.CharField(verbose_name='出版社', max_length=255)
 
 
+class Zhtest(models.Model):
+    id = models.IntegerField(primary_key=True)
+    description = models.TextField()
+
+
 @receiver(post_save, sender=Book)
 def create_book(sender, instance, created, **kwargs):
     if created:

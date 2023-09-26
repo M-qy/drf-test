@@ -110,3 +110,26 @@ class BookViewSet(viewsets.ModelViewSet):
         queryset = Book.objects.values('type').annotate(total_price=Sum('price'), avg_price=Avg('price'), num_books=Count('id'))
         result = Book.objects.values('type').annotate(names_concat=ConcatAggregate('name'))
         return JsonResponse(list(queryset) + (list(result)), safe=False)  # 字典设置True
+
+
+class ZhtestViewSet(viewsets.ModelViewSet):
+    queryset = Zhtest.objects.all()
+    serializer_class = ZhtestSerializer
+
+    @action(detail=False, methods=['get'])
+    def add_desc(self, request, *args, **kwargs):
+        import random
+        eng = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+        chi = ['一', '二', '三', '四', '五', '六', '七', '八', '九']
+        shu = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+        for _ in range(100):
+            save_list = []
+            for _ in range(5000):
+                i = random.sample(eng, 3)
+                j = random.sample(chi, 3)
+                k = random.sample(shu, 3)
+                description = i[0] + j[1] + k[2] + i[1] + j[2] + k[0] + i[2] + j[0] + k[1]
+                obj = Zhtest()
+                obj.description = description
+                save_list.append(obj)
+            Zhtest.objects.bulk_create(save_list)

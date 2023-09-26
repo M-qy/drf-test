@@ -26,3 +26,9 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
+
+
+class ZhtestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Zhtest
+        fields = '__all__'

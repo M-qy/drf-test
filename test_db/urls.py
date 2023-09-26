@@ -24,6 +24,7 @@ router = routers.SimpleRouter()
 router.register('user', UserViewSet)
 router.register('school', SchoolViewSet)
 router.register('book', BookViewSet)
+router.register('zhtest', ZhtestViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user_test/', UserTestViewSet.as_view({'get': 'list'})),
